@@ -6,15 +6,19 @@ import {Switch, Route, BrowserRouter as Router} from "react-router-dom";
 import Dashboard from './components/dashboard';
 import Login from './components/auth/'
 import CrearUsuario from './components/crearUsuario';
+import AuthState from './context/auth/authState';
+import tokenAuth from './config/token';
 
 function App() {
-  //COPIO TOKEN LE LOCAL STORAGE
+  //COPIO TOKEN DEL LOCAL STORAGE
   const token = localStorage.getItem("token");
+  if(token){
+    tokenAuth(token);
+  }
   return (
     <>
-
+    <AuthState>
       <Router>
-        
         <Switch>
           <Route exact path="/" component={Login} />
           <Route exact path="/dashboard" component={Dashboard} />
@@ -24,6 +28,7 @@ function App() {
           <Route exact path="/crearUsuario" component={CrearUsuario} />
         </Switch>
       </Router>
+    </AuthState>
     </>
     
   );

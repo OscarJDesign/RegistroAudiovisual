@@ -1,23 +1,27 @@
-import React, { useState, useEffect }from 'react';
+import React, { useState, useContext, useEffect }from 'react';
 import { Redirect } from 'react-router-dom';
+import AuthContext from '../../auth/authContext';
 
 
 
 
 const Login = () => {
 
+    const authContext = useContext(AuthContext);
+    const [usuario, iniciarSesion] = authContext;
+
     //HOOK DE ESTADOS
 
     //FUNCION DE 
     const [dashboard, setDashboard] = useState(false);
 
-    const [usuario, setUsuario] = useState({
-        nombreUsuario: "",
-        passUsuario:""
+    const [usuarioLocal, setUsuario] = useState({
+        email: "",
+        password:""
     });
 
     //OBJECT DESTRUCTURING
-    const {nombreUsuario, passUsuario} = usuario; //EXTRAER PROPIEDAS DE USUARIO PARA QUITAR USUARIO.ALGO
+    const {email, password} = usuarioLocal; //EXTRAER PROPIEDAS DE USUARIO PARA QUITAR USUARIO.ALGO
 
 
     //HOOK DE EFECTO
@@ -29,7 +33,7 @@ const Login = () => {
         
         setUsuario({
             //hace una COPIA DE USUARIO
-            ...usuario,
+            ...usuarioLocal,
             [e.target.name] : e.target.value,
         })
     }
@@ -39,12 +43,15 @@ const Login = () => {
         
         //VALIDAR CAMPOS VACIOS
         //.trim BORRA LOS ESPACIOS EN BLANCO PARA NO GENERAR ERRORES Y SEGURIDAD
-        if(nombreUsuario.trim() === "" || passUsuario.trim() ===""){
+        if(email.trim() === "" || password.trim() ===""){
             alert("Completa los Cambios");
             return;
         }
 
         //PASAR EL USUARIO AL ACTION
+
+        iniciarSesion(usuarioLocal);
+
     }
 
     return (
@@ -56,8 +63,8 @@ const Login = () => {
                 <input 
                 type="text" 
                 placeholder="correo@ejemplo.cl"
-                name="nombreUsuario"
-                value={nombreUsuario} //QUITAR USUARIO
+                name="email"
+                value={email} //QUITAR USUARIO
                 onChange={leerInputs}
                 >
 
@@ -65,8 +72,8 @@ const Login = () => {
                 <input
                 type="password"
                 placeholder="Password"
-                name="passUsuario"
-                value={passUsuario}
+                name="password"
+                value={password}
                 onChange={leerInputs}
                 ></input>
                 
