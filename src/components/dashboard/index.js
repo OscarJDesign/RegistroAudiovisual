@@ -13,7 +13,7 @@ const Dashboard = () => {
             <Link to="/rutaC">
                 <button type="button">Ruta C</button>
             </Link>
-            <Link to="/crearUsuario">
+            <Link to="/registro">
                 <button type="button">Crear Usuario</button>
             </Link>
             <Link to="/">

@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import AuthContext from "../../context/auth/authContext";
 import Video from "../../assets/video/Video2.mp4";
+import Logo from "../../assets/img/logo2020.png";
 
 const Login = () => {
   const authContext = useContext(AuthContext);
@@ -37,7 +38,7 @@ const Login = () => {
     //VALIDAR CAMPOS VACIOS
     //.trim BORRA LOS ESPACIOS EN BLANCO PARA NO GENERAR ERRORES Y SEGURIDAD
     if (email.trim() === "" || password.trim() === "") {
-      alert("Completa los Cambios");
+      alert("Completa los campos vacios");
       return;
     }
 
@@ -48,17 +49,23 @@ const Login = () => {
 
   return (
     <>
+    
       {dashboard ? (
         <Redirect to="/dashboard" />
       ) : (
         <div className="contenedorGeneralLogin">
+        
           <video autoPlay="autoPlay" muted loop="loop" id="myVideo">
             <source src={Video} type="video/mp4" />
           </video>
+          
           <div>
+            <div className="logoOlimpiadas">
+              <img className="logo" src={Logo}></img>
+           </div>
             <form className="login" onSubmit={submitForm}>
               <h3 className="tituloLogin">INICIAR SESION</h3>
-              <input
+              <input 
                 type="text"
                 id="email"
                 name="email"
@@ -78,6 +85,12 @@ const Login = () => {
                 onChange={leerInputs}
                 autoComplete="off"
               />
+              <p className="opcionesLogin">¿Has olvidado tu contraseña? click aqui</p>
+
+              <Link to="/registro" className="link">
+              <p className="opcionesLogin">¿No tienes cuenta? Registrate</p>
+              </Link>
+              
               <button className="btnLogin" type="submit">
                 Entrar
               </button>

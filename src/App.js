@@ -5,7 +5,7 @@ import RutaC from './components/rutaC';
 import {Switch, Route, BrowserRouter as Router} from "react-router-dom";
 import Dashboard from './components/dashboard';
 import Login from './components/auth/'
-import CrearUsuario from './components/crearUsuario';
+import Registro from './components/registro';
 import AuthState from './context/auth/authState';
 import tokenAuth from './config/token';
 
@@ -25,7 +25,7 @@ function App() {
           <Route exact path="/rutaA" component={RutaA} />
           <Route exact path="/rutaB" component={RutaB} />
           <Route exact path="/rutaC" component={RutaC} />
-          <Route exact path="/crearUsuario" component={CrearUsuario} />
+          <Route exact path="/registro" component={Registro} />
         </Switch>
       </Router>
     </AuthState>
