@@ -3,15 +3,13 @@ import { Link, Redirect } from "react-router-dom";
 import AuthContext from "../../context/auth/authContext";
 import Video from "../../assets/video/Video2.mp4";
 import Logo from "../../assets/img/logo2020.png";
+import Registro from "./Registro";
 
 const Login = () => {
   const authContext = useContext(AuthContext);
-  const { usuario, iniciarSesion } = authContext;
+  const { usuario, iniciarSesion, mensaje } = authContext;
 
-  //HOOK DE ESTADOS
-
-  //FUNCION DE
-  const [dashboard, setDashboard] = useState(false);
+  const [mostrarRegistro, setMostrarRegistro] = useState(false);
 
   const [usuarioLocal, setUsuario] = useState({
     email: "",
@@ -22,6 +20,12 @@ const Login = () => {
   const { email, password } = usuarioLocal; //EXTRAER PROPIEDAS DE USUARIO PARA QUITAR USUARIO.ALGO
 
   //HOOK DE EFECTO
+  useEffect(() => {
+    if(mensaje !== ""){
+      alert(mensaje);
+      return;
+    }
+  }, [mensaje])
 
   //LEER CAMBIOS EN INPUT
   const leerInputs = (e) => {
@@ -40,32 +44,33 @@ const Login = () => {
     if (email.trim() === "" || password.trim() === "") {
       alert("Completa los campos vacios");
       return;
-    }
+    } 
 
     //PASAR EL USUARIO AL ACTION
-
     iniciarSesion(usuarioLocal);
   };
 
   return (
     <>
-    
-      {dashboard ? (
-        <Redirect to="/dashboard" />
-      ) : (
-        <div className="contenedorGeneralLogin">
-        
-          <video autoPlay="autoPlay" muted loop="loop" id="myVideo">
-            <source src={Video} type="video/mp4" />
-          </video>
-          
-          <div>
-            <div className="logoOlimpiadas">
-              <img className="logo" src={Logo}></img>
-           </div>
+      <div className="contenedorGeneralLogin">
+        <video autoPlay="autoPlay" muted loop="loop" id="myVideo">
+          <source src={Video} type="video/mp4" />
+        </video>
+
+        <div>
+          <div className="logoOlimpiadas">
+            <img className="logo" alt="imagen" src={Logo}></img>
+          </div>
+          {mostrarRegistro ? (
+            <Registro
+              mostrarRegistro={mostrarRegistro}
+              setMostrarRegistro={setMostrarRegistro}
+            />
+          ) : (
+            <>
             <form className="login" onSubmit={submitForm}>
               <h3 className="tituloLogin">INICIAR SESION</h3>
-              <input 
+              <input
                 type="text"
                 id="email"
                 name="email"
@@ -85,19 +90,27 @@ const Login = () => {
                 onChange={leerInputs}
                 autoComplete="off"
               />
-              <p className="opcionesLogin">¿Has olvidado tu contraseña? click aqui</p>
+              <p className="opcionesLogin">
+                ¿Has olvidado tu contraseña? click aqui
+              </p>
 
-              <Link to="/registro" className="link">
-              <p className="opcionesLogin">¿No tienes cuenta? Registrate</p>
-              </Link>
-              
+              <p
+                className="opcionesLogin"
+                onClick={() => setMostrarRegistro(true)}
+              >
+                ¿No tienes cuenta? Registrate
+              </p>
+
               <button className="btnLogin" type="submit">
                 Entrar
               </button>
             </form>
-          </div>
+
+            {usuario === null ? null : usuario.code === 200 ? <Redirect to="/dashboard" /> : null}
+            </>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 };
